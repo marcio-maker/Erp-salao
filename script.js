@@ -296,12 +296,9 @@ function loadDashboard() {
 }
 
 /**
- * Carrega a página de clientes
- */
-
-/**
 * Carrega a página de serviços
 */
+
 function loadServices() {
   const services = DB.get('services');
 
@@ -368,7 +365,6 @@ function loadServices() {
     });
   });
 }
-
 /**
  * Renderiza o formulário de serviço
  */
