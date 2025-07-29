@@ -299,7 +299,6 @@ function loadDashboard() {
  * Carrega a página de Services
  */
 
-*/
 function loadServices() {
   const services = DB.get('services');
 
@@ -452,6 +451,7 @@ function renderServiceForm(serviceId = null) {
 /**
  * Salva os dados do serviço (cria ou atualiza)
  */
+
 function saveService(form) {
   const formData = new FormData(form);
   const services = DB.get('services');
@@ -527,6 +527,7 @@ function showToast(message, type = "success") {
 /**
  * Carrega a página de clientes
  */
+
 function loadClients() {
   const clients = DB.get('clients');
 
@@ -631,13 +632,12 @@ function loadClients() {
       row.style.display = name.includes(searchTerm) ? '' : 'none';
     });
   });
-}
+} 
+
 /**
  * Carrega a página de estoque
  */
-/**
- * Carrega a página de estoque
- */
+
 function loadInventory() {
   const inventory = DB.get('inventory');
   const lowStock = inventory.filter(i => i.quantity < i.min);
