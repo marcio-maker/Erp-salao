@@ -299,8 +299,11 @@ function loadDashboard() {
 * Carrega a página de serviços
 */
 
+/**
+* Carrega a página de serviços
+*/
 function loadServices() {
-  const services = DB.get('services');
+  const services = DB.get('services') || []; // Garante array mesmo se vazio
 
   const content = `
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden animate-fadeIn">
@@ -327,7 +330,7 @@ function loadServices() {
             </div>
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-1">${service.name}</h3>
             <p class="text-purple-600 dark:text-purple-400 font-medium mb-2">R$ ${service.price.toFixed(2)}</p>
-            <p class="text-sm text-gray-600 dark:text-gray-400">Realizados: ${service.count}</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Realizados: ${service.count || 0}</p>
             <div class="flex space-x-2 mt-4">
               <button onclick="renderServiceForm(${service.id})" class="text-xs bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded">
                 Editar
