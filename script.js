@@ -456,21 +456,23 @@ function renderServiceForm(serviceId = null) {
  */
 function saveService(form) {
   const formData = new FormData(form);
-  const services = DB.get('services');
-
+  let services = DB.get('services') || []; // Garante que services seja um array
+  
   const serviceData = {
     id: formData.get('id') ? parseInt(formData.get('id')) : Date.now(),
     name: formData.get('name'),
     price: parseFloat(formData.get('price')),
-    icon: formData.get('icon'),
-    color: formData.get('color'),
-    description: formData.get('description'),
-    count: formData.get('id') ? services.find(s => s.id == formData.get('id')).count : 0
+    icon: formData.get('icon') || '✂️', // Valor padrão se não informado
+    color: formData.get('color') || '#7c3aed', // Valor padrão se não informado
+    description: formData.get('description') || '',
+    count: formData.get('id') ? 
+           (services.find(s => s.id === parseInt(formData.get('id')))?.count || 0 
+           : 0
   };
 
   if (formData.get('id')) {
     // Atualizar serviço existente
-    const index = services.findIndex(s => s.id == formData.get('id'));
+    const index = services.findIndex(s => s.id === parseInt(formData.get('id')));
     if (index !== -1) {
       services[index] = serviceData;
     }
@@ -483,7 +485,6 @@ function saveService(form) {
   showAlert('success', `Serviço ${formData.get('id') ? 'atualizado' : 'cadastrado'} com sucesso!`);
   loadServices();
 }
-
 /**
  * Exclui um serviço
  */
