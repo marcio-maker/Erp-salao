@@ -1,0 +1,451 @@
+/* =============================================
+   ESTILOS BASE E UTILITÁRIOS 
+   ============================================= */
+
+/* Estilos para links ativos na navegação */
+#navLinks a.active {
+  background-color: #f3e8ff; /* Fundo roxo claro */
+  color: #7e22ce;           /* Texto roxo escuro */
+  font-weight: 500;         /* Peso médio para destaque */
+}
+
+/* =============================================
+   ANIMAÇÕES E EFEITOS 
+   ============================================= */
+
+/* Pulsação para alertas/notificações */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.alert-pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Animação de fade-in suave */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* =============================================
+   COMPONENTES ESPECÍFICOS 
+   ============================================= */
+
+/* Container para gráficos responsivos */
+.chart-container {
+  position: relative;
+  height: 300px;  /* Altura fixa para consistência */
+  width: 100%;    /* Largura total do container pai */
+}
+
+/* =============================================
+   LAYOUT RESPONSIVO - MOBILE FIRST
+   ============================================= */
+
+@media (max-width: 768px) {
+  /* Botão do menu mobile */
+  #mobileMenuBtn {
+    display: block; /* Garante visibilidade em mobile */
+  }
+  
+  /* Ajustes de header para mobile */
+  header {
+    padding: 1rem; /* Reduz padding em telas pequenas */
+  }
+  
+  /* Título da página em mobile */
+  #pageTitle {
+    font-size: 1.1rem; /* Tamanho menor para mobile */
+  }
+}
+
+/* =============================================
+   TRANSITIONS E ANIMAÇÕES DE COMPONENTES
+   ============================================= */
+
+/* Transição suave para o modal mobile */
+#mobileMenu {
+  transition: opacity 0.3s ease; /* Efeito de fade */
+}
+
+#mobileMenu > div {
+  transition: transform 0.3s ease; /* Deslizamento suave */
+}
+
+/* Estados do menu mobile */
+#mobileMenu:not(.hidden) > div {
+  transform: translateX(0); /* Posição visível */
+}
+
+#mobileMenu.hidden > div {
+  transform: translateX(-100%); /* Posição escondida */
+}
+
+/* =============================================
+   TEMA ESCURO - VARIÁVEIS E ESTILOS
+   ============================================= */
+
+:root {
+  /* Cores base para tema escuro */
+  --dark-bg: #121826;            /* Fundo principal */
+  --dark-card: #1e293b;          /* Cards e containers */
+  --dark-text: #e2e8f0;          /* Texto primário */
+  --dark-text-secondary: #94a3b8;/* Texto secundário */
+  --dark-border: #334155;        /* Bordas */
+  --dark-primary: #7c3aed;       /* Cor primária (roxo) */
+  --dark-primary-hover: #6d28d9; /* Hover do primário */
+  --dark-accent: #10b981;        /* Cor de destaque */
+  --dark-button-text: #ffffff;   /* Texto em botões */
+}
+
+/* Classe raiz do tema escuro */
+.dark {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+/* Transições suaves para mudança de tema */
+.dark-mode-transition * {
+  transition: 
+    background-color 0.3s ease, 
+    color 0.3s ease, 
+    border-color 0.3s ease;
+}
+
+/* ========== TIPOGRAFIA ========== */
+.dark .text-gray-800,
+.dark .text-gray-700,
+.dark .text-gray-600,
+.dark .text-gray-500 {
+  color: var(--dark-text-secondary); /* Textos cinzas ficam mais claros */
+}
+
+.dark .text-purple-600 {
+  color: var(--dark-primary); /* Roxo primário */
+}
+
+.dark .text-purple-800 {
+  color: var(--dark-primary-hover); /* Roxo mais escuro */
+}
+
+/* ========== FUNDOS ========== */
+.dark .bg-white {
+  background-color: var(--dark-card); /* Substitui branco por card escuro */
+}
+
+.dark .bg-gray-50,
+.dark .bg-gray-100 {
+  background-color: var(--dark-bg); /* Fundos cinzas claros ficam escuros */
+}
+
+.dark .bg-purple-100 {
+  background-color: rgba(124, 58, 237, 0.1); /* Fundo roxo com transparência */
+}
+
+/* ========== BOTÕES ========== */
+/* Botões primários (roxos) */
+.dark .bg-purple-600 {
+  background-color: var(--dark-primary);
+  color: var(--dark-button-text) !important; /* Força texto branco */
+}
+
+.dark .bg-purple-600:hover {
+  background-color: var(--dark-primary-hover);
+}
+
+/* Botões secundários (cinzas) */
+.dark .bg-gray-200 {
+  background-color: #2d3748; /* Cinza escuro */
+  color: var(--dark-text) !important;
+}
+
+.dark .bg-gray-200:hover {
+  background-color: #3c4657; /* Cinza mais claro no hover */
+}
+
+/* Botões de texto (links) */
+.dark .text-purple-600 {
+  color: var(--dark-primary) !important;
+}
+
+.dark .text-purple-600:hover {
+  color: var(--dark-primary-hover) !important;
+}
+
+/* Botões de ação (vermelho/verde) */
+.dark .bg-red-600,
+.dark .bg-green-600 {
+  color: var(--dark-button-text) !important; /* Força texto branco */
+}
+
+/* ========== COMPONENTES ESPECÍFICOS ========== */
+/* Cards */
+.dark .card {
+  background-color: var(--dark-card);
+  border-color: var(--dark-border);
+}
+
+/* Sombras mais suaves no modo escuro */
+.dark .shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Alertas com transparência */
+.dark .bg-green-100 { 
+  background-color: rgba(16, 185, 129, 0.1); 
+  color: #10b981 !important;
+}
+
+.dark .bg-red-100 { 
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444 !important;
+}
+
+/* Tabelas */
+.dark table thead {
+  background-color: #1a2035; /* Header mais escuro */
+}
+
+.dark table tbody tr {
+  border-color: var(--dark-border);
+}
+
+.dark table tbody tr:hover {
+  background-color: #1e2740; /* Hover sutil */
+}
+
+/* Inputs e Formulários */
+.dark .form-input {
+  background-color: #1a2035;
+  border-color: var(--dark-border);
+  color: var(--dark-text);
+}
+
+.dark .form-input:focus {
+  border-color: var(--dark-primary);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3); /* Focus visível */
+}
+
+/* ========== MENU MOBILE ========== */
+.dark #mobileMenu > div {
+  background-color: var(--dark-card); /* Fundo do menu */
+}
+
+.dark #mobileNavLinks a {
+  color: var(--dark-text) !important;
+}
+
+.dark #mobileNavLinks a:hover {
+  background-color: #2d3748;
+  color: var(--dark-primary) !important;
+}
+
+.dark #mobileNavLinks a.active {
+  background-color: rgba(124, 58, 237, 0.2);
+  color: var(--dark-primary) !important;
+}
+
+/* ========== ÍCONES ========== */
+.dark svg {
+  color: var(--dark-text-secondary); /* Ícones mais suaves */
+}
+
+/* ========== CLASSES DE APOIO ========== */
+/* Forçar cores específicas quando necessário */
+.dark .text-white-force {
+  color: white !important;
+}
+
+.dark .text-dark-force {
+  color: var(--dark-text) !important;
+}
+
+/* Garantir contraste em botões */
+.dark button:not(.bg-transparent),
+.dark a[role="button"] {
+  color: var(--dark-button-text) !important;
+}
+
+/* Ajustes específicos para header */
+.dark header button {
+  color: var(--dark-text) !important;
+}
+
+/* Botões de fechar em modais */
+.dark .modal-close-btn {
+  color: var(--dark-text-secondary) !important;
+}
+
+.dark .modal-close-btn:hover {
+  color: var(--dark-text) !important;
+}
+
+/* =============================================
+   ESTILOS GLOBAIS
+   ============================================= */ 
+   /* Ajustes para o botão flutuante mobile */
+@media (max-width: 767px) {
+  #inventorySearch {
+    padding-right: 3.5rem; /* Espaço para o botão */
+  }
+  
+  .fixed.bottom-6.right-6 {
+    z-index: 40; /* Acima do conteúdo mas abaixo de modais */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .fixed.bottom-6.right-6:hover {
+    transform: scale(1.05);
+  }
+}
+
+@media (min-width: 768px) {
+  .fixed.bottom-6.right-6 {
+    position: static;
+    transform: none !important;
+  }
+}
+
+.active\:scale-95:active {
+  transform: scale(0.95);
+}
+
+/* Ajustes para a tabela em mobile */
+@media (max-width: 640px) {
+  .table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Garante que o input de busca não fique sob o botão flutuante */
+  #inventorySearch {
+    padding-right: 3.5rem;
+  }
+}
+
+/* Animações */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+.animate-pulse {
+  animation: pulse 1.5s infinite;
+}
+
+/* Transições suaves */
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+
+/* Adicione estas classes ao seu arquivo CSS principal */
+
+/* Estilos da seção de serviços */
+.service-card {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(124, 58, 237, 0.6);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+}
+
+.service-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+}
+
+.service-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.service-price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #a78bfa;
+  margin-bottom: 0.25rem;
+}
+
+.service-duration {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+}
+
+.service-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.service-actions button {
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.edit-btn {
+  background: rgba(124, 58, 237, 0.2);
+  color: #a78bfa;
+  border: none;
+}
+
+.edit-btn:hover {
+  background: rgba(124, 58, 237, 0.3);
+}
+
+.delete-btn {
+  background: rgba(220, 38, 38, 0.2);
+  color: #f87171;
+  border: none;
+}
+
+.delete-btn:hover {
+  background: rgba(220, 38, 38, 0.3);
+}
+@keyframes slideUp {
+  from { 
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out;
+}
+
+.animate-fadeOut {
+  animation: fadeOut 0.3s ease-out;
+}

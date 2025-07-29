@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudioERP - Gestão para Cabeleireiros</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Configuração customizada do Tailwind -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              600: '#7c3aed',
+              700: '#6d28d9',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+  <div class="flex h-screen">
+    <!-- Sidebar Desktop -->
+    <nav class="w-64 bg-white dark:bg-gray-800 shadow-md p-4 hidden md:block transition-colors duration-200">
+      <div class="flex items-center space-x-3 mb-8 p-2">
+        <div class="bg-primary-600 text-white p-2 rounded-lg">💇</div>
+        <h1 class="font-bold text-xl text-gray-800 dark:text-white">StudioERP</h1>
+      </div>
+      <div class="space-y-2" id="navLinks">
+        <!-- Links serão inseridos via JS -->
+      </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <div class="flex-1 overflow-auto">
+      <!-- Header Responsivo -->
+      <header
+        class="bg-white dark:bg-gray-800 shadow-sm p-4 flex justify-between items-center transition-colors duration-200">
+        <!-- Botão Menu Mobile -->
+        <button id="mobileMenuBtn"
+          class="md:hidden text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
+        <h2 id="pageTitle" class="text-xl font-semibold text-gray-800 dark:text-white">Dashboard</h2>
+
+        <!-- Perfil -->
+        <div class="flex items-center space-x-4">
+          <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+            <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700 dark:text-yellow-300"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </button>
+          <span class="text-sm hidden sm:inline text-gray-600 dark:text-gray-300">Olá, Márcio</span>
+          <div
+            class="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center cursor-pointer text-purple-700 dark:text-purple-200 font-medium"
+            id="profileBtn">
+            M
+          </div>
+        </div>
+      </header>
+      <main class="p-6" id="mainContent">
+        <div id="dashboardContent">
+          <!-- Adicione esta seção onde desejar -->
+          <section id="servicesSection" class="mb-8">
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Serviços</h2>
+              <button id="addServiceBtn"
+                class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+                <span>+</span> Novo Serviço
+              </button>
+            </div>
+
+            <div id="servicesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <!-- Serviços serão carregados aqui via JavaScript -->
+            </div>
+          </section>
+
+          <!-- Outras seções do seu dashboard... -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Menu Mobile -->
+  <div id="mobileMenu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden md:hidden">
+    <div class="bg-white dark:bg-gray-800 h-full w-64 p-4 transform transition-transform duration-200">
+      <div class="flex justify-between items-center mb-8">
+        <div class="flex items-center space-x-3">
+          <div class="bg-primary-600 text-white p-2 rounded-lg">💇</div>
+          <h1 class="font-bold text-xl text-gray-800 dark:text-white">StudioERP</h1>
+        </div>
+        <button id="closeMobileMenu" class="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="space-y-2" id="mobileNavLinks">
+        <!-- Links serão inseridos via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Perfil -->
+  <div id="profileModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full max-w-md animate-fadeIn">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Meu Perfil</h3>
+        <button onclick="document.getElementById('profileModal').classList.add('hidden')"
+          class="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="space-y-4">
+        <div class="flex flex-col items-center">
+          <div class="relative mb-4">
+            <img id="profileImage" src="https://via.placeholder.com/150"
+              class="w-24 h-24 rounded-full object-cover border-2 border-purple-200 dark:border-purple-600">
+            <label for="imageUpload"
+              class="absolute bottom-0 right-0 bg-primary-600 text-white p-1 rounded-full cursor-pointer hover:bg-primary-700">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </label>
+            <input type="file" id="imageUpload" accept="image/*" class="hidden">
+          </div>
+          <h3 id="profileName" class="text-lg font-medium text-gray-800 dark:text-white">Marcio Maker</h3>
+          <p id="profileRole" class="text-sm text-gray-500 dark:text-gray-400">Cabeleireiro(a) Profissional</p>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Telefone</label>
+            <input type="tel" id="profilePhone"
+              class="form-input w-full px-4 py-2 border rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              value="(11) 98765-4321">
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descrição
+              Profissional</label>
+            <textarea id="profileBio" rows="3"
+              class="form-input w-full px-4 py-2 border rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">Especialista em coloração e cortes modernos com 10 anos de experiência.</textarea>
+          </div>
+
+          <div class="pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-end space-x-3">
+            <button onclick="document.getElementById('profileModal').classList.add('hidden')"
+              class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+              Cancelar
+            </button>
+            <button onclick="saveProfile()"
+              class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors">
+              Salvar Alterações
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <!-- Script para alternar tema -->
+  <!-- Adicione isto antes do fechamento do body -->
+  <script src="services.js" defer></script>
+  <script src="dashboard-services.js" defer></script>
+
+  <script>
+
+    // Verificar preferência salva
+    if (localStorage.getItem('darkMode') === 'true' ||
+      (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+      updateThemeIcon(true);
+    }
+
+    // Alternador de tema
+    document.getElementById('themeToggle').addEventListener('click', function () {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('darkMode', isDark);
+      updateThemeIcon(isDark);
+    });
+
+    function updateThemeIcon(isDark) {
+      const icon = document.getElementById('themeIcon');
+      if (isDark) {
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />';
+      } else {
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />';
+      }
+    }
+
+     // Evento para o botão de adicionar serviço
+  document.getElementById('addServiceBtn')?.addEventListener('click', function() {
+    renderServiceForm();
+  });
+
+  // Carrega os serviços ao carregar a página
+  document.addEventListener('DOMContentLoaded', function() {
+    loadServicesForDashboard();
+  });
+
+  function loadServicesForDashboard() {
+    const services = DB.get('services');
+    const servicesGrid = document.getElementById('servicesGrid');
+    
+    if (servicesGrid) {
+      servicesGrid.innerHTML = services.map(service => `
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 transition-all hover:shadow-lg">
+          <div class="w-12 h-12 rounded-full ${service.color ? '' : 'bg-purple-100 dark:bg-purple-900'} flex items-center justify-center ${service.color ? '' : 'text-purple-600 dark:text-purple-300'} mb-4 text-xl" ${service.color ? `style="background-color: ${service.color}"` : ''}>
+            ${service.icon || '✂️'}
+          </div>
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-1">${service.name}</h3>
+          <p class="text-purple-600 dark:text-purple-400 font-medium mb-2">R$ ${service.price.toFixed(2)}</p>
+          <p class="text-sm text-gray-600 dark:text-gray-400">Realizados: ${service.count}</p>
+        </div>
+      `).join('');
+    }
+  }
+  </script>
+</body>
+
+</html>

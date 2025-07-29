@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudioERP - Chuva Digital Profissional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        #digital-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+            overflow: hidden;
+        }
+        
+        .digital-char {
+            position: absolute;
+            color: rgba(124, 58, 237, 0.7);
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            user-select: none;
+            text-shadow: 0 0 5px rgba(124, 58, 237, 0.5);
+        }
+        
+        .login-card {
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(124, 58, 237, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s ease;
+        }
+        
+        .fade-out {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        
+        .input-field {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen text-gray-100 transition-opacity duration-500">
+    <!-- Efeito de chuva digital -->
+    <div id="digital-rain"></div>
+    
+    <!-- Card de Login -->
+    <div id="loginCard" class="login-card p-8 rounded-xl w-full max-w-md mx-4">
+        <div class="text-center mb-8">
+            <div class="bg-gradient-to-br from-purple-600 to-purple-900 text-white p-4 rounded-xl inline-block shadow-lg">
+                ✂️
+            </div>
+            <h1 class="text-3xl font-bold mt-6 text-white">StudioERP</h1>
+            <p class="text-gray-300 mt-2">Gestão profissional para salões</p>
+        </div>
+        
+        <form id="loginForm" class="space-y-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1">Usuário</label>
+                <input type="text" id="username" required class="w-full px-4 py-3 input-field rounded-lg focus:outline-none" placeholder="admin">
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1">Senha</label>
+                <input type="password" id="password" required class="w-full px-4 py-3 input-field rounded-lg focus:outline-none" placeholder="admin123">
+            </div>
+            
+            <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-purple-800 text-white py-3 rounded-lg hover:from-purple-700 hover:to-purple-900 transition-all font-medium shadow-lg">
+                Entrar
+            </button>
+            
+            <div id="errorMessage" class="text-red-400 text-sm text-center hidden">
+                Usuário ou senha incorretos
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Configuração do efeito de chuva digital
+        function createDigitalRain() {
+            const container = document.getElementById('digital-rain');
+            const chars = '0123456789';
+            const charCount = 150;
+            
+            // 4 Categorias com propriedades diferentes
+            const categories = [
+                { // Pequenos e lentos
+                    sizeMin: 12,
+                    sizeMax: 16,
+                    speedMin: 0.3,
+                    speedMax: 0.6,
+                    opacityMin: 0.3,
+                    opacityMax: 0.5,
+                    color: 'rgba(124, 58, 237, 0.6)'
+                },
+                { // Médios
+                    sizeMin: 18,
+                    sizeMax: 24,
+                    speedMin: 0.7,
+                    speedMax: 1.2,
+                    opacityMin: 0.5,
+                    opacityMax: 0.7,
+                    color: 'rgba(156, 102, 255, 0.7)'
+                },
+                { // Grandes
+                    sizeMin: 26,
+                    sizeMax: 34,
+                    speedMin: 1.3,
+                    speedMax: 1.8,
+                    opacityMin: 0.6,
+                    opacityMax: 0.8,
+                    color: 'rgba(88, 28, 135, 0.8)'
+                },
+                { // Muito grandes (destaque)
+                    sizeMin: 36,
+                    sizeMax: 48,
+                    speedMin: 2.0,
+                    speedMax: 3.0,
+                    opacityMin: 0.8,
+                    opacityMax: 1.0,
+                    color: 'rgba(167, 139, 250, 1.0)'
+                }
+            ];
+            
+            // Criar caracteres para cada categoria
+            categories.forEach((category, catIndex) => {
+                const charsInCategory = Math.floor(charCount / categories.length);
+                
+                for (let i = 0; i < charsInCategory; i++) {
+                    createChar(category);
+                }
+            });
+            
+            function createChar(category) {
+                const char = document.createElement('div');
+                char.className = 'digital-char';
+                char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                
+                // Aplicar propriedades da categoria
+                const size = randomBetween(category.sizeMin, category.sizeMax);
+                const speed = randomBetween(category.speedMin, category.speedMax);
+                const opacity = randomBetween(category.opacityMin, category.opacityMax);
+                
+                char.style.fontSize = `${size}px`;
+                char.style.left = `${Math.random() * 100}%`;
+                char.style.top = `${-size}px`;
+                char.style.opacity = opacity;
+                char.style.color = category.color;
+                
+                // Efeito especial para caracteres grandes
+                if (category.sizeMin >= 36) {
+                    char.style.textShadow = `0 0 10px ${category.color}`;
+                }
+                
+                container.appendChild(char);
+                animateChar(char, speed, size, category);
+            }
+            
+            function animateChar(char, speed, size, category) {
+                let y = parseFloat(char.style.top);
+                const startLeft = parseFloat(char.style.left);
+                let xVariation = 0;
+                
+                function move() {
+                    y += speed;
+                    xVariation += (Math.random() - 0.5) * 0.05;
+                    
+                    // Limitar a variação horizontal
+                    xVariation = Math.max(-1, Math.min(1, xVariation));
+                    
+                    char.style.top = `${y}px`;
+                    char.style.left = `${startLeft + xVariation}%`;
+                    
+                    // Reset quando sair da tela
+                    if (y > window.innerHeight) {
+                        y = -size;
+                        char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                        char.style.left = `${startLeft + (Math.random() - 0.5) * 10}%`;
+                        
+                        // Atualizar opacidade ocasionalmente
+                        if (Math.random() > 0.8) {
+                            char.style.opacity = randomBetween(category.opacityMin, category.opacityMax);
+                        }
+                    }
+                    
+                    requestAnimationFrame(move);
+                }
+                
+                move();
+            }
+            
+            function randomBetween(min, max) {
+                return min + Math.random() * (max - min);
+            }
+        }
+        
+        // Sistema de Login
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Validação simples (substitua por chamada AJAX em produção)
+            if (username === 'admin' && password === 'admin123') {
+                errorMessage.classList.add('hidden');
+                
+                // Efeito de fade out
+                document.body.classList.add('opacity-0');
+                document.getElementById('loginCard').classList.add('fade-out');
+                
+                // Redirecionar após a animação
+                await new Promise(resolve => setTimeout(resolve, 500));
+                window.location.href = 'dashboard.html';
+            } else {
+                errorMessage.classList.remove('hidden');
+                document.getElementById('password').value = '';
+            }
+        });
+        
+        // Iniciar efeitos quando a página carregar
+        window.onload = createDigitalRain;
+    </script>
+</body>
+</html>
