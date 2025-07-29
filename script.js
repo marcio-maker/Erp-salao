@@ -1699,3 +1699,30 @@ function saveProfile() {
   showAlert('success', 'Perfil atualizado com sucesso!');
   document.getElementById('profileModal').classList.add('hidden');
 }
+
+// Adicione isso no seu script.js
+function updateFooterDate() {
+  const now = new Date();
+  
+  // Atualiza o ano
+  document.getElementById('current-year').textContent = now.getFullYear();
+  
+  // Formata a data e hora
+  const dateOptions = { 
+    day: '2-digit', 
+    month: '2-digit', 
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  };
+  
+  const dateTimeStr = now.toLocaleDateString('pt-BR', dateOptions);
+  document.getElementById('current-date').textContent = dateTimeStr;
+}
+
+// Chame a função quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', function() {
+  updateFooterDate();
+  // Atualize a data/hora a cada minuto
+  setInterval(updateFooterDate, 60000);
+});

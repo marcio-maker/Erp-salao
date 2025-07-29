@@ -449,3 +449,56 @@
 .animate-fadeOut {
   animation: fadeOut 0.3s ease-out;
 }
+
+/* Garante que o conteúdo principal ocupe toda a altura disponível */
+#mainContent {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 80px); /* Ajuste conforme a altura do header */
+}
+
+/* Estilos para o footer */
+/* ==================== FOOTER ESTILOS ==================== */
+footer {
+  transition: all 0.3s ease;
+}
+
+footer a {
+  position: relative;
+  padding-bottom: 2px;
+}
+
+footer a:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: #7c3aed;
+  transition: width 0.3s ease;
+}
+
+footer a:hover:after {
+  width: 100%;
+}
+
+.dark footer a:after {
+  background-color: #a78bfa;
+}
+
+/* Efeito de hover nos ícones dos links */
+footer a:hover svg {
+  transform: translateY(-2px);
+}
+
+/* Responsividade */
+@media (max-width: 640px) {
+  footer .flex-col {
+    gap: 1rem;
+  }
+  
+  footer a {
+    margin: 0 0.5rem;
+  }
+}
