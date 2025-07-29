@@ -296,14 +296,12 @@ function loadDashboard() {
 }
 
 /**
-* Carrega a página de serviços
-*/
+ * Carrega a página de Services
+ */
 
-/**
-* Carrega a página de serviços
 */
 function loadServices() {
-  const services = DB.get('services') || []; // Garante array mesmo se vazio
+  const services = DB.get('services');
 
   const content = `
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden animate-fadeIn">
@@ -330,7 +328,7 @@ function loadServices() {
             </div>
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-1">${service.name}</h3>
             <p class="text-purple-600 dark:text-purple-400 font-medium mb-2">R$ ${service.price.toFixed(2)}</p>
-            <p class="text-sm text-gray-600 dark:text-gray-400">Realizados: ${service.count || 0}</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Realizados: ${service.count}</p>
             <div class="flex space-x-2 mt-4">
               <button onclick="renderServiceForm(${service.id})" class="text-xs bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded">
                 Editar
@@ -368,6 +366,7 @@ function loadServices() {
     });
   });
 }
+
 /**
  * Renderiza o formulário de serviço
  */
@@ -455,23 +454,21 @@ function renderServiceForm(serviceId = null) {
  */
 function saveService(form) {
   const formData = new FormData(form);
-  let services = DB.get('services') || []; // Garante que services seja um array
-  
+  const services = DB.get('services');
+
   const serviceData = {
     id: formData.get('id') ? parseInt(formData.get('id')) : Date.now(),
     name: formData.get('name'),
     price: parseFloat(formData.get('price')),
-    icon: formData.get('icon') || '✂️', // Valor padrão se não informado
-    color: formData.get('color') || '#7c3aed', // Valor padrão se não informado
-    description: formData.get('description') || '',
-    count: formData.get('id') ? 
-           (services.find(s => s.id === parseInt(formData.get('id')))?.count || 0 
-           : 0
+    icon: formData.get('icon'),
+    color: formData.get('color'),
+    description: formData.get('description'),
+    count: formData.get('id') ? services.find(s => s.id == formData.get('id')).count : 0
   };
 
   if (formData.get('id')) {
     // Atualizar serviço existente
-    const index = services.findIndex(s => s.id === parseInt(formData.get('id')));
+    const index = services.findIndex(s => s.id == formData.get('id'));
     if (index !== -1) {
       services[index] = serviceData;
     }
@@ -484,6 +481,7 @@ function saveService(form) {
   showAlert('success', `Serviço ${formData.get('id') ? 'atualizado' : 'cadastrado'} com sucesso!`);
   loadServices();
 }
+
 /**
  * Exclui um serviço
  */
@@ -524,7 +522,8 @@ function showToast(message, type = "success") {
     toast.classList.add('animate-fadeOut');
     setTimeout(() => toast.remove(), 300);
   }, 3000);
-}
+} 
+
 /**
  * Carrega a página de clientes
  */
